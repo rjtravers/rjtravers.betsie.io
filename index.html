@@ -1,1 +1,20 @@
-<h1>hello!</h1>
+<!DOCTYPE html>
+<html>
+  <head>
+    <?!= include('WebApp / *Site / CSS'); ?>
+    <?!= include('WebApp / Index / CSS'); ?>
+    <base target="_top">
+  </head>
+  <body>
+    <h1>Betsie</h1>
+    <div id="container">
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?v=newbet">New bet</a>
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?v=findline">Find a line</a>
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?v=editBets">Edit bets</a>
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?v=config">Config</a>
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?v=pending">Pending bets</a>
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?v=tips">Tip Jar</a>
+      <a href="<?= ScriptApp.getService().getUrl(); ?>?v=config2">Config2</a>
+    </div>
+  </body>
+</html>

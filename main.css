@@ -1,0 +1,48 @@
+<style>
+            @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+            
+            * {
+            font-family: "Roboto Condensed", sans-serif;
+            }
+            
+            h1 {
+            font-family: "Bungee", sans-serif;
+            font-weight: 700;
+            font-style: italic;
+            text-align: center;
+            color: green;
+            }
+            
+            .h2 {
+            font-family: "Bungee", sans-serif;
+            font-weight: 400;
+            font-style: italic;
+            color: green;
+            margin: 0;
+            grid-column: 1 / -1;
+            }
+            
+            #container {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            }
+            
+            a {
+            display: grid;
+            justify-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            margin: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer; /* Indicates the div is clickable */
+            }
+            
+            a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            }
+        </style>

@@ -1,0 +1,41 @@
+  #quota {
+    font-style: italic;
+    color: grey;
+  }
+
+  .gameContainer {
+    display: grid; /* Use grid layout */
+    grid-template-columns: 1fr repeat(auto-fill, minmax(100px, 1fr)); /* Adjust width */
+    grid-template-rows: auto; /* Automatic row height */
+    border: 1px solid #ccc; /* Light border around each game */
+    border-radius: 8px; /* Rounded corners */
+    margin: 10px 0; /* Space between games */
+    padding: 10px; /* Padding inside each game */
+    background-color: #f9f9f9; /* Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: background-color 0.3s; /* Transition for hover effect */
+  }
+
+  .gameContainer:hover {
+    background-color: #e9ecef; /* Change background color on hover */
+  }
+
+  .matchup {
+    display: grid;
+  }
+
+  .awaySlot {
+    grid-row: 1;
+    grid-column: 1
+  }
+
+  .homeSlot {
+    grid-row: 2;
+    grid-column: 1
+  }
+
+  #linesContainer {
+  width: 100%; /* Adjust as needed */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent wrapping of contents */
+  }

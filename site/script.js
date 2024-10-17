@@ -1,3 +1,3 @@
 window.onload = function() {
-          console.log("Here's where the logging goes!");
+          console.log("This is coming from site/script.js");
       };

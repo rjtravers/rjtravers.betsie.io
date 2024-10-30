@@ -21,21 +21,15 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
-
-// Initialize Firestore
-const db = getFirestore();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 // Fetch data from Firestore
 async function fetchData() {
-const querySnapshot = await getDocs(collection(db, "your-collection-name"));
-querySnapshot.forEach((doc) => {
-console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
-});
+  const querySnapshot = await db.collection("your-collection-name").get();
+  querySnapshot.forEach((doc) => {
+    console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+  });
 }
 
-// Call the function
 fetchData();

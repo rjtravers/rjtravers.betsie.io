@@ -11,17 +11,34 @@
         
         <base target="_top">
     
-        <!-- Firebase SDKs - Updated to latest version -->
+        <!-- Firebase SDKs -->
         <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
-        
-        <!-- Firebase initialization and testing -->
+    </head>
+    <body>
+        <h1>Betsie</h1>
+        <div id="container">
+            <a href="newBet">New bet</a>
+            <a href="findLine">Find a line</a>
+            <a href="editBet">Edit bets</a>
+            <a href="config">Config</a>
+            <a href="pendingBets">Pending bets</a>
+            <a href="tipJar">Tip Jar</a>
+            <a href="config2">Config2</a>
+        </div> 
+
+        <!-- Firebase Connection Test -->
+        <div style="padding: 20px; text-align: center; margin-top: 20px;">
+            <button id="testConnection" style="padding: 10px 20px; cursor: pointer;">Test Firebase Connection</button>
+            <p id="connectionStatus">Status: Not tested</p>
+        </div>
+
+        <!-- Firebase initialization and test -->
         <script type="module">
-            // Import the functions you need from the SDKs you need
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-            
+            import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
             // Your Firebase configuration
             const firebaseConfig = {
                 apiKey: "AIzaSyBsNY1g6iCHzQUrJt_4Na5zTd7p1NBU2XI",
@@ -35,32 +52,34 @@
 
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
-            const analytics = getAnalytics(app);
-        </script>
-    </head>
-    <body>
-        <h1>Betsie</h1>
-        <div id="container">
-            <!-- Link to the index.html file in the newBet folder -->
-            <a href="newBet">New bet</a>
-            <a href="findLine">Find a line</a>
-            <a href="editBet">Edit bets</a>
-            <a href="config">Config</a>
-            <a href="pendingBets">Pending bets</a>
-            <a href="tipJar">Tip Jar</a>
-            <a href="config2">Config2</a>
-        </div> 
+            const db = getFirestore(app);
 
-        <!-- Firebase Connection Test (you can style this to match your site) -->
-        <div style="padding: 20px; text-align: center; margin-top: 20px;">
-            <button id="testConnection" style="padding: 10px 20px; cursor: pointer;">Test Firebase Connection</button>
-            <p id="connectionStatus">Status: Not tested</p>
-        </div>
+            // Test connection function
+            async function testFirebaseConnection() {
+                const statusElement = document.getElementById('connectionStatus');
+                
+                try {
+                    // Try to access Firestore
+                    const testCollection = collection(db, 'test_collection');
+                    await getDocs(testCollection);
+                    
+                    // If we get here, connection was successful
+                    statusElement.textContent = 'Status: ✅ Connected to Firebase successfully!';
+                    statusElement.style.color = 'green';
+                    console.log('Firebase connection successful!');
+                } catch (error) {
+                    // If there's an error, connection failed
+                    statusElement.textContent = `Status: ❌ Connection failed: ${error.message}`;
+                    statusElement.style.color = 'red';
+                    console.error('Firebase connection error:', error);
+                }
+            }
+
+            // Add click event listener to the test button
+            document.getElementById('testConnection').addEventListener('click', testFirebaseConnection);
+        </script>
 
         <!-- Your existing script -->
         <script type="module" src="site/script.js"></script>
-        
-        <!-- New Firebase test script -->
-        <script type="module" src="firebase-test.js"></script>
     </body>
 </html>

@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Betsie</title>
-
         <!-- Link to the CSS file -->
         <link rel="stylesheet" href="site/style.css">
         <link rel="stylesheet" href="home/style.css">
@@ -12,13 +11,32 @@
         
         <base target="_top">
     
-    <!-- Firebase App (core SDK) -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js"></script>
-    <!-- Firebase Firestore -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js"></script>
-    <!-- Firebase Authentication (if needed) -->
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js"></script>
+        <!-- Firebase SDKs - Updated to latest version -->
+        <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
+        
+        <!-- Firebase initialization and testing -->
+        <script type="module">
+            // Import the functions you need from the SDKs you need
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+            import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+            
+            // Your Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyBsNY1g6iCHzQUrJt_4Na5zTd7p1NBU2XI",
+                authDomain: "betsie-cb801.firebaseapp.com",
+                projectId: "betsie-cb801",
+                storageBucket: "betsie-cb801.firebasestorage.app",
+                messagingSenderId: "785908965472",
+                appId: "1:785908965472:web:70aa7d665173be51066305",
+                measurementId: "G-3H33TYHW3W"
+            };
 
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const analytics = getAnalytics(app);
+        </script>
     </head>
     <body>
         <h1>Betsie</h1>
@@ -33,9 +51,16 @@
             <a href="config2">Config2</a>
         </div> 
 
-        <!-- Link to the JavaScript file -->
-        <script type="module" src="site/script.js"></script>
+        <!-- Firebase Connection Test (you can style this to match your site) -->
+        <div style="padding: 20px; text-align: center; margin-top: 20px;">
+            <button id="testConnection" style="padding: 10px 20px; cursor: pointer;">Test Firebase Connection</button>
+            <p id="connectionStatus">Status: Not tested</p>
+        </div>
 
+        <!-- Your existing script -->
+        <script type="module" src="site/script.js"></script>
         
+        <!-- New Firebase test script -->
+        <script type="module" src="firebase-test.js"></script>
     </body>
 </html>

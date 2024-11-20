@@ -20,6 +20,7 @@ async function theOddsGetQuota() {
 theOddsGetQuota()
     .then(headers => {
         console.log('Response headers:', headers);
+        $("#quota").setText(headers.x-requests-remaining + " requests remaining")
     })
     .catch(error => {
         console.error('Error:', error);

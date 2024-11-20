@@ -14,8 +14,21 @@
             
             <div>
                 <form id="findLineForm">
-                    <select id="sport"></select>
-                    <select id="ftMarket"></select>            
+                    <select id="sport">
+                        <option value="americanfootball_nfl">NFL</option>
+                        <option value="basketball_nba">NBA</option>
+                        <option value="americanfootball_ncaaf">NCAAF</option>
+                        <option value="basketball_ncaab">NCAAB</option>
+                    </select>
+                    
+                    
+                    <select id="ftMarket">
+                        <option value="h2h">Moneyline</option>
+                        <option value="spreads">Spread</option>
+                        <option value="totals">Totals</option>
+                    </select>            
+
+                    
                     <input type="submit" value="Submit"><br>
                     <span id="quota"></span>
                 </form>

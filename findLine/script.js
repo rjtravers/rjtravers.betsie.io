@@ -1,13 +1,3 @@
-window.onload = function() {
-          console.log("This is the Find a line page. The window has loaded!");
-      };
-
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("The DOM content has loaded!");
-});
-
-console.log("This is outside the window.onload action");
-
 async function theOddsGetQuota() {
     const apiKey = '9ce55105dd73a67831f39e8acb3c3465'; // Store your API key securely
     const url = `https://api.the-odds-api.com/v4/sports/?apiKey=${apiKey}`;

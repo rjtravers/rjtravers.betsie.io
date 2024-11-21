@@ -25,3 +25,12 @@ theOddsGetQuota()
     .catch(error => {
         console.error('Error:', error);
     });
+
+const submit = document.getElementById("submit");
+
+submit.addEventListener('click', function() { 
+        const sport = document.getElementById("sport");
+        const market = document.getElementById("ftMarket");
+        console.log("Searching for " + sport + " " + market)
+    },                         
+    false);

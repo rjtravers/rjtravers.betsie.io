@@ -27,10 +27,18 @@ theOddsGetQuota()
     });
 
 const submit = document.getElementById("submit");
-
-submit.addEventListener('click', function() { 
-        const sport = document.getElementById("sport");
-        const market = document.getElementById("ftMarket");
-        console.log("Searching for " + sport + " " + market)
-    },                         
-    false);
+submit.addEventListener('click', function(event) { 
+    // Prevent the default form submission
+    event.preventDefault();
+    
+    // Get the selected sport
+    const sport = document.getElementById("sport");
+    const selectedSport = sport.options[sport.selectedIndex].value;
+    
+    // Get the selected market
+    const market = document.getElementById("ftMarket");
+    const selectedMarket = market.options[market.selectedIndex].value;
+    
+    // Log the selected values
+    console.log("Searching for " + selectedSport + " " + selectedMarket);
+}, false);

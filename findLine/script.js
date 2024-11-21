@@ -41,4 +41,19 @@ submit.addEventListener('click', function(event) {
     
     // Log the selected values
     console.log("Searching for " + selectedSport + " " + selectedMarket);
+
+    // Select the lines container
+    const linesContainer = document.getElementById('linesContainer');
+    
+    // Clear the container (equivalent to .empty() in jQuery)
+    linesContainer.innerHTML = '';
+    
+    // Create the please wait paragraph
+    const pleaseWait = document.createElement('p');
+    pleaseWait.textContent = 'Fetching lines, please wait...';
+    pleaseWait.id = 'pleaseWait';
+    
+    // Add the please wait paragraph to the container
+    linesContainer.appendChild(pleaseWait);
+    
 }, false);

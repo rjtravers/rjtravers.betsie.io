@@ -124,3 +124,71 @@ function displayOdds(oddsData) {
         linesContainer.appendChild(gameElement);
     });
 }
+
+
+
+// Assuming keyOddsAPI is defined elsewhere securely
+async function theOddsGetFeaturedMarket(sport, market) {
+    // Input validation
+    if (!sport || !market) {
+        throw new Error('Sport and market parameters are required');
+    }
+
+    // Construct the URL with proper encoding
+    const baseUrl = 'https://api.the-odds-api.com/v4/sports';
+    const url = `${baseUrl}/${encodeURIComponent(sport)}/odds/`;
+    
+    // Setup the query parameters
+    const params = new URLSearchParams({
+        regions: 'us',
+        markets: market,
+        oddsFormat: 'american',
+        apiKey: keyOddsAPI
+    });
+
+    try {
+        // Make the fetch request
+        const response = await fetch(`${url}?${params}`);
+        
+        // Check if the response was successful
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`API request failed: ${response.status} - ${errorText}`);
+        }
+
+        // Parse and return the JSON data
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Error fetching odds data:', error);
+        throw error; // Re-throw to allow handling by the caller
+    }
+}
+
+// Example usage:
+// Add error handling when calling the function
+async function displayFeaturedMarket(sport, market) {
+    try {
+        const oddsData = await theOddsGetFeaturedMarket(sport, market);
+        console.log('Odds data:', oddsData);
+        
+        // Handle the data (example)
+        if (oddsData && oddsData.length > 0) {
+            // Process the odds data here
+            oddsData.forEach(game => {
+                console.log(`${game.home_team} vs ${game.away_team}`);
+                // Add your display logic here
+            });
+        } else {
+            console.log('No odds data available');
+        }
+        
+    } catch (error) {
+        console.error('Failed to get featured market:', error);
+        // Handle the error appropriately (e.g., show user-friendly message)
+    }
+}
+
+// Example of how to call the function
+// displayFeaturedMarket('basketball_nba', 'h2h');

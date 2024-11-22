@@ -1,59 +1,126 @@
+// Constants
+const API_KEY = '9ce55105dd73a67831f39e8acb3c3465';
+const BASE_URL = 'https://api.the-odds-api.com/v4';
+
+// Utility function to handle API responses
+const handleResponse = async (response) => {
+    if (!response.ok) {
+        const error = await response.text();
+        throw new Error(`API Error: ${response.status} - ${error}`);
+    }
+    return response;
+};
+
+// Get API quota information
 async function theOddsGetQuota() {
-    const apiKey = '9ce55105dd73a67831f39e8acb3c3465'; // Store your API key securely
-    const url = `https://api.the-odds-api.com/v4/sports/?apiKey=${apiKey}`;
-    
     try {
-        const response = await fetch(url);
-        const headers = response.headers;
+        const response = await fetch(`${BASE_URL}/sports/?apiKey=${API_KEY}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
         
-        // Convert headers to a regular object if needed
-        const headersObject = Object.fromEntries(headers.entries());
-        return headersObject;
+        const handledResponse = await handleResponse(response);
+        const headers = handledResponse.headers;
         
+        // Extract relevant quota information
+        const quotaInfo = {
+            remaining: headers.get('x-requests-remaining'),
+            used: headers.get('x-requests-used'),
+            total: headers.get('x-requests-limit')
+        };
+        
+        return quotaInfo;
     } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching quota:', error);
         throw error;
     }
 }
 
-// To use the function:
-theOddsGetQuota()
-    .then(headers => {
-        console.log('Response headers:', headers);
-        document.getElementById("quota").textContent = headers['x-requests-remaining'] + " requests remaining";
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+// Get odds for a specific sport and market
+async function getOdds(sport, market) {
+    try {
+        const response = await fetch(`${BASE_URL}/sports/${sport}/odds/?apiKey=${API_KEY}&regions=us&markets=${market}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+        const handledResponse = await handleResponse(response);
+        return await handledResponse.json();
+    } catch (error) {
+        console.error('Error fetching odds:', error);
+        throw error;
+    }
+}
 
-const submit = document.getElementById("submit");
-submit.addEventListener('click', function(event) { 
-    // Prevent the default form submission
+// Event listener setup
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize quota display
+    updateQuotaDisplay();
+    
+    // Setup form submission
+    const submit = document.getElementById("submit");
+    submit.addEventListener('click', handleFormSubmission);
+});
+
+// Update quota display
+async function updateQuotaDisplay() {
+    try {
+        const quotaInfo = await theOddsGetQuota();
+        const quotaElement = document.getElementById("quota");
+        if (quotaElement) {
+            quotaElement.textContent = `${quotaInfo.remaining} / ${quotaInfo.total} requests remaining`;
+        }
+    } catch (error) {
+        console.error('Failed to update quota:', error);
+        const quotaElement = document.getElementById("quota");
+        if (quotaElement) {
+            quotaElement.textContent = 'Failed to fetch quota information';
+        }
+    }
+}
+
+// Handle form submission
+async function handleFormSubmission(event) {
     event.preventDefault();
     
-    // Get the selected sport
     const sport = document.getElementById("sport");
-    const selectedSport = sport.options[sport.selectedIndex].value;
-    
-    // Get the selected market
     const market = document.getElementById("ftMarket");
+    const selectedSport = sport.options[sport.selectedIndex].value;
     const selectedMarket = market.options[market.selectedIndex].value;
     
-    // Log the selected values
-    console.log("Searching for " + selectedSport + " " + selectedMarket);
-
-    // Select the lines container
     const linesContainer = document.getElementById('linesContainer');
+    linesContainer.innerHTML = '<p id="pleaseWait">Fetching lines, please wait...</p>';
     
-    // Clear the container (equivalent to .empty() in jQuery)
-    linesContainer.innerHTML = '';
+    try {
+        const oddsData = await getOdds(selectedSport, selectedMarket);
+        displayOdds(oddsData);
+    } catch (error) {
+        linesContainer.innerHTML = `<p class="error">Error fetching odds: ${error.message}</p>`;
+    }
+}
+
+// Display odds data
+function displayOdds(oddsData) {
+    const linesContainer = document.getElementById('linesContainer');
+    linesContainer.innerHTML = ''; // Clear loading message
     
-    // Create the please wait paragraph
-    const pleaseWait = document.createElement('p');
-    pleaseWait.textContent = 'Fetching lines, please wait...';
-    pleaseWait.id = 'pleaseWait';
+    if (!oddsData || oddsData.length === 0) {
+        linesContainer.innerHTML = '<p>No odds data available for this selection.</p>';
+        return;
+    }
     
-    // Add the please wait paragraph to the container
-    linesContainer.appendChild(pleaseWait);
-    
-}, false);
+    // Create odds display (customize this based on your needs)
+    oddsData.forEach(game => {
+        const gameElement = document.createElement('div');
+        gameElement.className = 'game-odds';
+        gameElement.innerHTML = `
+            <h3>${game.home_team} vs ${game.away_team}</h3>
+            <p>Start time: ${new Date(game.commence_time).toLocaleString()}</p>
+        `;
+        linesContainer.appendChild(gameElement);
+    });
+}

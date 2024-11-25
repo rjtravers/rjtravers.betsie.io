@@ -72,6 +72,7 @@ async function updateQuotaDisplay() {
         const quotaInfo = await theOddsGetQuota();
         const quotaElement = document.getElementById("quota");
         if (quotaElement) {
+            console.log(quotaElement);
             quotaElement.textContent = `${quotaInfo.remaining} / ${quotaInfo.total} requests remaining`;
         }
     } catch (error) {

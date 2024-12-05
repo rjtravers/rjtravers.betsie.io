@@ -30,7 +30,7 @@ async function theOddsGetQuota() {
         const quotaInfo = {
             remaining: headers.get('x-requests-remaining'),
             used: headers.get('x-requests-used'),
-            total: headers.get('x-requests-limit')
+            total: parseInt(headers.get('x-requests-remaining')) + parseInt(headers.get('x-requests-used'))
         };
         
         return quotaInfo;
